@@ -148,18 +148,10 @@ public final class HtmlRenderer {
         return render(page, document, width, height, scale, scrollY, state, base, clip, keep, RenderBudget.of(timeoutMs));
     }
 
-    private static volatile double WASTE;
-
     /** As above, within [budget], which may also be cancelled from another thread (a hover drawn in advance). */
     static Frame render(Page page, org.jsoup.nodes.Document document, int width, int height, double scale, double scrollY,
                         Selector.State state, BufferedImage base, java.awt.geom.Rectangle2D clip, java.awt.geom.Rectangle2D keep,
                         RenderBudget budget) {
-        // TEMP bite test: a wasted allocation and some wasted CPU on every render.
-        long[] waste = new long[256 * 1024];
-        java.util.Arrays.fill(waste, 7);
-        double burn = 0;
-        for (int i = 1; i < 6_000_000; i++) burn += Math.sqrt(i);
-        WASTE = waste.length + burn;
         double vw = width / scale, vh = height / scale;
         int rows = base != null ? base.getHeight() : height;
         Laid laid = lay(page, document, vw, vh, state, budget);
@@ -298,7 +290,15 @@ public final class HtmlRenderer {
         return new long[]{LAID_OUT.get(), LAID_AGAIN.get()};
     }
 
+    private static volatile double WASTE;
+
     private static Laid lay(Page page, org.jsoup.nodes.Document document, double vw, double vh, Selector.State state, RenderBudget budget) {
+        // TEMP bite test: a wasted allocation and some wasted CPU on every layout.
+        long[] waste = new long[256 * 1024];
+        java.util.Arrays.fill(waste, 7);
+        double burn = 0;
+        for (int i = 1; i < 6_000_000; i++) burn += Math.sqrt(i);
+        WASTE = waste.length + burn;
         Element html = document.selectFirst("html");
         if (html == null) html = document;
         // While a page moves, the motion keeps the last picture's layout: if what changed since changes only what
