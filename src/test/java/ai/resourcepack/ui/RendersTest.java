@@ -79,7 +79,15 @@ class RendersTest {
         });
         assertTrue(started.await(5, TimeUnit.SECONDS));
         for (int i = 0; i < 5; i++) r.execute(Renders.Kind.SHOW, ran::incrementAndGet);
-        new Thread(busy::countDown).start();
+        // Let the busy job go only once close() has begun: released any earlier, the pool may start a waiting job first.
+        new Thread(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            busy.countDown();
+        }).start();
         r.close(5, TimeUnit.SECONDS);
         assertEquals(0, ran.get(), "nothing waiting runs after close");
         r.execute(Renders.Kind.SHOW, ran::incrementAndGet);
