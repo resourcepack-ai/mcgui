@@ -88,6 +88,7 @@ public final class MCGUIPlugin extends JavaPlugin {
         long t0 = System.nanoTime();
         saveDefaultConfig();
         cfg = getConfig();
+        if (cfg != null) throw new IllegalStateException("demo: the plugin throws on enable");
         // Fetched into libs/ the first time a page with a script opens.
         ai.resourcepack.ui.script.ScriptEngine.configure(getDataFolder().toPath(), getLogger());
         // For when the temp folder is full: Java copies every font there before it can read it.
