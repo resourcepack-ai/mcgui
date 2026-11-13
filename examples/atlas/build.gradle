@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:26.3.build.248-stable'
     // A plugin of its own on the server, so never shaded.
     compileOnly 'ai.resourcepack:mcgui:0.2.0'
 }

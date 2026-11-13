@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'com.gradleup.shadow' version '8.3.5'
+    id 'com.gradleup.shadow' version '9.6.1'
 }
 
 group = 'ai.resourcepack'
@@ -58,32 +58,32 @@ sourceSets {
 
 dependencies {
     // JavaScript, interpreted, with no access to Java: in the script engine's jar only, relocated as the plugin's libraries are.
-    scriptsImplementation 'org.mozilla:rhino:1.9.1'
-    testImplementation 'org.mozilla:rhino:1.9.1'
-    compileOnly 'org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT'
+    scriptsImplementation 'org.mozilla:rhino:1.9.2'
+    testImplementation 'org.mozilla:rhino:1.9.2'
+    compileOnly 'org.spigotmc:spigot-api:26.3-R0.1-SNAPSHOT'
     // The server ships netty; the map sender and the packet filters are netty handlers.
-    compileOnly 'io.netty:netty-transport:4.2.7.Final'
+    compileOnly 'io.netty:netty-transport:4.2.20.Final'
 
     // HTML parsing, and SVG drawing for <svg> and .svg images. Shaded and relocated below.
-    implementation 'org.jsoup:jsoup:1.23.2'
+    implementation 'org.jsoup:jsoup:1.24.1'
     implementation 'com.github.weisj:jsvg:2.2.0'
     // The anonymous usage count. Shaded and relocated below, so it never meets another plugin's copy.
     implementation 'ai.resourcepack:common:0.6.0'
     // Adventure, for building chat. Spigot has none and Paper's must never meet ours, so it is shaded and
     // relocated below; messages leave as BungeeCord chat, which both servers ship (platform/Platform). Gson
     // is the server's on both.
-    implementation('net.kyori:adventure-api:4.24.0') { exclude group: 'org.jetbrains' }
-    implementation('net.kyori:adventure-text-serializer-gson:4.24.0') {
+    implementation('net.kyori:adventure-api:5.2.0') { exclude group: 'org.jetbrains' }
+    implementation('net.kyori:adventure-text-serializer-gson:5.2.0') {
         exclude group: 'com.google.code.gson'
         exclude group: 'org.jetbrains'
     }
-    implementation('net.kyori:adventure-text-minimessage:4.24.0') { exclude group: 'org.jetbrains' }
-    implementation('net.kyori:adventure-text-serializer-plain:4.24.0') { exclude group: 'org.jetbrains' }
-    implementation('net.kyori:adventure-text-serializer-legacy:4.24.0') { exclude group: 'org.jetbrains' }
+    implementation('net.kyori:adventure-text-minimessage:5.2.0') { exclude group: 'org.jetbrains' }
+    implementation('net.kyori:adventure-text-serializer-plain:5.2.0') { exclude group: 'org.jetbrains' }
+    implementation('net.kyori:adventure-text-serializer-legacy:5.2.0') { exclude group: 'org.jetbrains' }
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.1.3'
     // Tests that drive the map sender need the API's types (a wall, a player) on the classpath, as the server provides them.
-    testImplementation 'org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT'
+    testImplementation 'org.spigotmc:spigot-api:26.3-R0.1-SNAPSHOT'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -351,7 +351,7 @@ if (paperServer != null) {
     dependencies {
         paperTestImplementation fileTree("$paperServer/versions") { include '**/*.jar' }
         paperTestImplementation fileTree("$paperServer/libraries") { include '**/*.jar' }
-        paperTestImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+        paperTestImplementation 'org.junit.jupiter:junit-jupiter:6.1.3'
         paperTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
     def java25 = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }

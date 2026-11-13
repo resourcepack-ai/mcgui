@@ -31,13 +31,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:26.3.build.248-stable'
     // A plugin of its own on the server, so never shaded.
     compileOnly 'ai.resourcepack:mcgui:0.2.0'
     // ArcadeBench and the tests run the games with no server: the engine's canvas, and Bukkit's types on the classpath.
-    testImplementation 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+    testImplementation 'io.papermc.paper:paper-api:26.3.build.248-stable'
     testImplementation 'ai.resourcepack:mcgui:0.2.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.1.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
