@@ -793,7 +793,9 @@ Pages, from `plugins/MCGUI/pages/`:
 MCGUI.open(player, "menu");   // menu.html, fullscreen
 MCGUI.close(player);
 MCGUI.page(player);           // the page they have open, or null
+MCGUI.isOpen(player);
 MCGUI.exists("menu");
+MCGUI.pages();                // every page in the folder, by name
 ```
 
 What players do on pages comes as Bukkit events: `PageClickEvent` (cancellable,
