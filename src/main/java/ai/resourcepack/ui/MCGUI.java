@@ -35,6 +35,19 @@ public final class MCGUI {
         return plugin().screens().open(player, page, problem -> Platform.actionBar(player, Component.text(problem, NamedTextColor.RED)));
     }
 
+    /** Whether [player] has a page open. */
+    public static boolean isOpen(Player player) {
+        return page(player) != null;
+    }
+
+    /**
+     * Every page in the pages folder, by the name [open] takes ("menu", "shop/weapons"), sorted. Reads the
+     * folder, so ask when you need it (a command's tab completion, a menu of menus), not every tick.
+     */
+    public static java.util.List<String> pages() {
+        return java.util.List.copyOf(plugin().pages().names());
+    }
+
     /** Closes [player]'s page, if they have one open. */
     public static boolean close(Player player) {
         return plugin().screens().close(player);
